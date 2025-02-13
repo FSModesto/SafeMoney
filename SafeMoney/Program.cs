@@ -9,6 +9,7 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
+builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenSetup();
 
@@ -20,6 +21,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseSwaggerUI(c => { c.SwaggerEndpoint("./v1/swagger.json", "SafeMoneyAPI"); });
+app.UseSwaggerUI(static options => { options.SwaggerEndpoint("/openapi/v1.json", "SafeMoneyAPI"); });
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
