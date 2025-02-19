@@ -1,9 +1,14 @@
+using Infra.Contexts;
+using Microsoft.EntityFrameworkCore;
 using SafeMoneyAPI.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Configuração do appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json");
+
+var connectionString = builder.Configuration.GetConnectionString("UsuarioConnection");
+builder.Services.AddDbContext<SafeMoneyContext>(opt => opt.UseSqlServer(connectionString));
 
 // Configurações customizadas
 builder.Services.AddAuthorization();
@@ -29,4 +34,3 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
