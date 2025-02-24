@@ -1,3 +1,4 @@
+using Application.AutoMapper;
 using Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using SafeMoneyAPI.Configurations;
@@ -11,12 +12,19 @@ var connectionString = builder.Configuration.GetConnectionString("UsuarioConnect
 builder.Services.AddDbContext<SafeMoneyContext>(opt => opt.UseSqlServer(connectionString));
 
 // Configurações customizadas
+builder.Services.AddAutoMapperSetup();
+builder.Services.AddRepositories();
+builder.Services.AddHandlers();
+builder.Services.AddServices();
+builder.Services.AddValidators();
+builder.Services.AddAuthenticationSetup(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
-
-builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGenSetup();
+builder.Services.AddSwaggerGen();
+
+//Configuração AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 
