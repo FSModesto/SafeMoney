@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Infra.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repository
 {
@@ -11,6 +12,11 @@ namespace Infra.Repository
         public UserRepository(SafeMoneyContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

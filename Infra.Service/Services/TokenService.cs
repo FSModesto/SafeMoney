@@ -27,9 +27,12 @@ namespace Infra.Service.Services
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                SigningCredentials = credentials,
+                Subject = new ClaimsIdentity(new[]
+            {
+                    new Claim("id", user.Id.ToString()) 
+            }),
                 Expires = DateTime.UtcNow.Add(expiration),
-                IssuedAt = DateTime.UtcNow
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = handler.CreateToken(tokenDescriptor);

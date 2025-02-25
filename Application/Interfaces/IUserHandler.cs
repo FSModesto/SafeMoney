@@ -6,5 +6,6 @@ namespace Application.Interfaces
     public interface IUserHandler
     {
         Task<BaseResponse<CreateUserResponse>> CreateUser(CreateUserRequest request);
+        Task<BaseResponse<ResetPasswordEmailResponse>> NewPasswordEmail(ResetPasswordEmailRequest request);
     }
 }

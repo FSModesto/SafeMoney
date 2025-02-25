@@ -2,11 +2,14 @@
 using Application.ViewModel.Request;
 using Application.ViewModel.Response;
 using AutoMapper;
+using Azure;
 using Domain.Entities;
 using Domain.Helpers;
 using Domain.Interfaces;
 using Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Application.Handlers
 {
@@ -74,6 +77,37 @@ namespace Application.Handlers
 
             var response = _mapper.Map<CreateUserResponse>(createdUser);
             return SuccessResponse(response);
+        }
+
+        public async Task<BaseResponse<ResetPasswordEmailResponse>> NewPasswordEmail(ResetPasswordEmailRequest request)
+        {
+            var validation = ValidateRequest(request);
+            if (!validation.IsValid)
+                return ErrorResponse<ResetPasswordEmailResponse>(validation.Errors);
+
+            if (string.IsNullOrEmpty(request.NewPassword))
+                return ErrorResponse<ResetPasswordEmailResponse>("A nova senha é obrigatória.");
+
+            //Valida o token
+            var tokenPrincipal = _tokenService.ValidateToken(request.Token);
+            if (tokenPrincipal == null)
+                return ErrorResponse<ResetPasswordEmailResponse>("Token inválido ou expirado.");
+
+            //Pega o ID do token
+            var idClaim = tokenPrincipal.Claims.FirstOrDefault(c => c.Type == "id"); 
+            if (idClaim == null || !int.TryParse(idClaim.Value, out var userId))
+                return ErrorResponse<ResetPasswordEmailResponse>("ID do usuário não encontrado no token.");
+
+            //Busca o usuário pelo ID
+            var user = await _repository.GetById(userId);
+            if (user == null)
+                return ErrorResponse<ResetPasswordEmailResponse>("Usuário não encontrado.");
+
+            //Atualiza a senha
+            user.Password = PasswordHelper.HashPassword(request.NewPassword);
+            await _repository.Update(user);
+
+            return SuccessResponse<ResetPasswordEmailResponse>("Senha alterada com sucesso.");
         }
     }
 }

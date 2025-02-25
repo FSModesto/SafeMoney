@@ -17,12 +17,26 @@ namespace SafeMoneyAPI.Controllers
             _handler = handler;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<BaseResponse<CreateUserResponse>>> CreateUser(CreateUserRequest request)
         {
             try
             {
                 var result = await _handler.CreateUser(request);
+                return ResponseSetup.CreateResponse(result);
+            }
+            catch (Exception ex)
+            {
+                return ResponseSetup.CreateUnexpectedError(ex);
+            }
+        }
+
+        [HttpPost("new-password")]
+        public async Task<ActionResult<BaseResponse<ResetPasswordEmailResponse>>> NewPasswordEmail([FromBody] ResetPasswordEmailRequest request)
+        {
+            try
+            {
+                var result = await _handler.NewPasswordEmail(request);
                 return ResponseSetup.CreateResponse(result);
             }
             catch (Exception ex)
