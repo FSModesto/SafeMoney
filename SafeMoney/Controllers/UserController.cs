@@ -58,5 +58,19 @@ namespace SafeMoneyAPI.Controllers
                 return ResponseSetup.CreateUnexpectedError(ex);
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult<BaseResponse<GetUserByIdResponse>>> GetUserById([FromQuery] GetUserByIdRequest request)
+        {
+            try
+            {
+                var result = await _handler.UserById(request);
+                return ResponseSetup.CreateResponse(result);
+            }
+            catch (Exception ex)
+            {
+                return ResponseSetup.CreateUnexpectedError(ex);
+            }
+        }
     }
 }

@@ -136,5 +136,19 @@ namespace Application.Handlers
 
             return SuccessResponse(response);
         }
+
+        public async Task<BaseResponse<GetUserByIdResponse>> UserById(GetUserByIdRequest request)
+        {
+            var validation = ValidateRequest(request);
+            if (!validation.IsValid)
+                return ErrorResponse<GetUserByIdResponse>(validation.Errors);
+
+            var user = await _repository.GetById(request.Id);
+            if (user == null)
+                return ErrorResponse<GetUserByIdResponse>("Usuário informado não encontrado.");
+
+            var response = _mapper.Map<GetUserByIdResponse>(user);
+            return SuccessResponse(response);
+        }
     }
 }
