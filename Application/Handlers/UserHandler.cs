@@ -2,14 +2,11 @@
 using Application.ViewModel.Request;
 using Application.ViewModel.Response;
 using AutoMapper;
-using Azure;
 using Domain.Entities;
 using Domain.Helpers;
 using Domain.Interfaces;
 using Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace Application.Handlers
 {
@@ -107,7 +104,37 @@ namespace Application.Handlers
             user.Password = PasswordHelper.HashPassword(request.NewPassword);
             await _repository.Update(user);
 
-            return SuccessResponse<ResetPasswordEmailResponse>("Senha alterada com sucesso.");
+            return SuccessResponse<ResetPasswordEmailResponse>("Senha atualizada com sucesso.");
+        }
+
+        public async Task<BaseResponse<LoginResponse>> LoginUser(LoginRequest request)
+        {
+            var validation = ValidateRequest(request);
+            if (!validation.IsValid)
+                return ErrorResponse<LoginResponse>(validation.Errors);
+
+            var user = await _repository.GetByEmailAndPassword(request.Email, request.Password);
+            if (user == null)
+                return ErrorResponse<LoginResponse>("Credenciais inválidas");
+
+            var isPasswordValid = await _repository.VerifyPasswordAsync(request.Password, user.PasswordHash, user.PasswordSalt);
+            if (!isPasswordValid)
+                return ErrorResponse<LoginResponse>("Credenciais inválidas");
+
+            var expiration = TimeSpan.FromHours(8);
+            var token = _tokenService.CreateToken(user, expiration);
+            var response = new LoginResponse()
+            {
+                Token = token,
+                Expiration = expiration,
+                User = new LoginResponse.UserData
+                {
+                    Id = user.Id,
+                    Name = user.Name
+                }
+            };
+
+            return SuccessResponse(response);
         }
     }
 }

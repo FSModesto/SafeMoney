@@ -19,11 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Infra", "4.Infra", "{A01D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Infra\Infra.csproj", "{C9DBABB8-27AB-483F-B4A6-8AE13447807D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2-Infra.Service", "4.2-Infra.Service", "{687FD799-743B-42B8-9736-19C0063E1478}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2-Infra", "4.2-Infra", "{687FD799-743B-42B8-9736-19C0063E1478}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Service", "Infra.Service\Infra.Service.csproj", "{CE453993-2D7D-47B0-99BF-0217277F77F0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1-Infra.Data", "4.1-Infra.Data", "{B82409BB-36C4-406F-B518-E84071E283B1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1-Infra", "4.1-Infra", "{B82409BB-36C4-406F-B518-E84071E283B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

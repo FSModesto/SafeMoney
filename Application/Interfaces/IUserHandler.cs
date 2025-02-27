@@ -7,5 +7,6 @@ namespace Application.Interfaces
     {
         Task<BaseResponse<CreateUserResponse>> CreateUser(CreateUserRequest request);
         Task<BaseResponse<ResetPasswordEmailResponse>> NewPasswordEmail(ResetPasswordEmailRequest request);
+        Task<BaseResponse<LoginResponse>> LoginUser(LoginRequest request);
     }
 }

@@ -44,5 +44,19 @@ namespace SafeMoneyAPI.Controllers
                 return ResponseSetup.CreateUnexpectedError(ex);
             }
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<BaseResponse<LoginResponse>>> LoginUser(LoginRequest request)
+        {
+            try
+            {
+                var result = await _handler.LoginUser(request);
+                return ResponseSetup.CreateResponse(result);
+            }
+            catch (Exception ex)
+            {
+                return ResponseSetup.CreateUnexpectedError(ex);
+            }
+        }
     }
 }

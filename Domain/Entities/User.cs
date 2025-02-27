@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Entities
 {
     public class User
     {
@@ -7,5 +9,8 @@
         public required string Email { get; set; }
         public required string Password { get; set; }
         public DateTime CreationDate { get; set; }
+
+        [NotMapped] public byte[] PasswordHash { get; set; }
+        [NotMapped] public byte[] PasswordSalt { get; set; }
     }
 }
