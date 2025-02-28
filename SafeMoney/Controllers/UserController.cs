@@ -1,11 +1,13 @@
 ﻿using Application.Interfaces;
 using Application.ViewModel.Request;
 using Application.ViewModel.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SafeMoneyAPI.Configurations;
 
 namespace SafeMoneyAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -18,6 +20,7 @@ namespace SafeMoneyAPI.Controllers
         }
 
         [HttpPost("create")]
+        [AllowAnonymous]
         public async Task<ActionResult<BaseResponse<CreateUserResponse>>> CreateUser(CreateUserRequest request)
         {
             try
@@ -32,6 +35,7 @@ namespace SafeMoneyAPI.Controllers
         }
 
         [HttpPost("new-password")]
+        [AllowAnonymous]
         public async Task<ActionResult<BaseResponse<ResetPasswordEmailResponse>>> NewPasswordEmail([FromBody] ResetPasswordEmailRequest request)
         {
             try
@@ -46,6 +50,7 @@ namespace SafeMoneyAPI.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<BaseResponse<LoginResponse>>> LoginUser(LoginRequest request)
         {
             try

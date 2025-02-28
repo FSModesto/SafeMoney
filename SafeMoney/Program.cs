@@ -2,6 +2,7 @@ using Application.AutoMapper;
 using Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using SafeMoneyAPI.Configurations;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenSetup();
+
+var key = Encoding.ASCII.GetBytes(builder.Configuration["SecretKey:PrivateKey"]);
 
 //Configuração AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));

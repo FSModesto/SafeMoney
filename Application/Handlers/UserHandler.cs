@@ -59,10 +59,10 @@ namespace Application.Handlers
                 return ErrorResponse<CreateUserResponse>("O token informado é inválido ou está expirado.");
 
             //email
-            var resetLink = $"{_apiUrl}/novasenha?token={token}\n";
+            var resetLink = $"token={token}\n";
             var subject = "Redefinição de senha para acessar SafeMoney.";
             var message = $"Caro usuário,\n" +
-                $"\nClique aqui para definir sua senha: {resetLink}\n" +
+                $"\nInsira esse token no Post de NewPassword na aplicação: {resetLink}\n" +
                 $"\nSafe Money";
 
             var sendEmailLink = await _sendEmailService.SendEmail(request.Email, subject, message);
@@ -100,27 +100,32 @@ namespace Application.Handlers
             if (user == null)
                 return ErrorResponse<ResetPasswordEmailResponse>("Usuário não encontrado.");
 
-            //Atualiza a senha
-            user.Password = PasswordHelper.HashPassword(request.NewPassword);
+            //Atualiza a senha com Hash
+            //user.Password = PasswordHelper.HashPassword(request.NewPassword);
+            //await _repository.Update(user);
+
+            //Atualiza a senha sem Hash
+            user.Password = request.NewPassword;
             await _repository.Update(user);
 
             return SuccessResponse<ResetPasswordEmailResponse>("Senha atualizada com sucesso.");
         }
-
         public async Task<BaseResponse<LoginResponse>> LoginUser(LoginRequest request)
         {
             var validation = ValidateRequest(request);
             if (!validation.IsValid)
                 return ErrorResponse<LoginResponse>(validation.Errors);
 
+            // Buscar usuário pelo email
             var user = await _repository.GetByEmailAndPassword(request.Email, request.Password);
             if (user == null)
                 return ErrorResponse<LoginResponse>("Credenciais inválidas");
 
-            var isPasswordValid = await _repository.VerifyPasswordAsync(request.Password, user.PasswordHash, user.PasswordSalt);
-            if (!isPasswordValid)
-                return ErrorResponse<LoginResponse>("Credenciais inválidas");
+            // Verificar a senha com o PasswordHelper
+            //if (!PasswordHelper.VerifyPassword(request.Password, user.Password))
+            //    return ErrorResponse<LoginResponse>("Credenciais inválidas");
 
+            // Criar token
             var expiration = TimeSpan.FromHours(8);
             var token = _tokenService.CreateToken(user, expiration);
             var response = new LoginResponse()
@@ -143,6 +148,7 @@ namespace Application.Handlers
             if (!validation.IsValid)
                 return ErrorResponse<GetUserByIdResponse>(validation.Errors);
 
+            //Verifica se o Id é cadastrado no banco de dados
             var user = await _repository.GetById(request.Id);
             if (user == null)
                 return ErrorResponse<GetUserByIdResponse>("Usuário informado não encontrado.");
