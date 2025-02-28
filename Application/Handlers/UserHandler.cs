@@ -59,10 +59,10 @@ namespace Application.Handlers
                 return ErrorResponse<CreateUserResponse>("O token informado é inválido ou está expirado.");
 
             //email
-            var resetLink = $"{_apiUrl}/novasenha?token={token}\n";
+            var resetLink = $"token={token}\n";
             var subject = "Redefinição de senha para acessar SafeMoney.";
             var message = $"Caro usuário,\n" +
-                $"\nClique aqui para definir sua senha: {resetLink}\n" +
+                $"\nInsira esse token no Post de NewPassword na aplicação: {resetLink}\n" +
                 $"\nSafe Money";
 
             var sendEmailLink = await _sendEmailService.SendEmail(request.Email, subject, message);
@@ -117,7 +117,7 @@ namespace Application.Handlers
                 return ErrorResponse<LoginResponse>(validation.Errors);
 
             // Buscar usuário pelo email
-            var user = await _repository.GetByEmail(request.Email);
+            var user = await _repository.GetByEmailAndPassword(request.Email, request.Password);
             if (user == null)
                 return ErrorResponse<LoginResponse>("Credenciais inválidas");
 
@@ -139,6 +139,21 @@ namespace Application.Handlers
                 }
             };
 
+            return SuccessResponse(response);
+        }
+
+        public async Task<BaseResponse<GetUserByIdResponse>> UserById(GetUserByIdRequest request)
+        {
+            var validation = ValidateRequest(request);
+            if (!validation.IsValid)
+                return ErrorResponse<GetUserByIdResponse>(validation.Errors);
+
+            //Verifica se o Id é cadastrado no banco de dados
+            var user = await _repository.GetById(request.Id);
+            if (user == null)
+                return ErrorResponse<GetUserByIdResponse>("Usuário informado não encontrado.");
+
+            var response = _mapper.Map<GetUserByIdResponse>(user);
             return SuccessResponse(response);
         }
     }

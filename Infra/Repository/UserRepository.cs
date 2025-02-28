@@ -23,17 +23,6 @@ namespace Infra.Repository
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
-
-        public async Task<bool> VerifyPasswordAsync(string password, byte[] storedHash, byte[] storedSalt)
-        {
-            return await Task.Run(() =>
-            {
-                using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
-                {
-                    var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                    return computedHash.SequenceEqual(storedHash);
-                }
-            });
-        }
+        
     }
 }

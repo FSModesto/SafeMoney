@@ -11,6 +11,12 @@ namespace Application.AutoMapper
         {
             CreateMap<CreateUserRequest, User>();
             CreateMap<User, CreateUserResponse>();
+
+            CreateMap<LoginRequest, User>();
+            CreateMap<User, LoginResponse>();
+
+            CreateMap<GetUserByIdRequest, User>();
+            CreateMap<User, GetUserByIdResponse>();
         }
     }
 }
