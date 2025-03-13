@@ -9,6 +9,7 @@ namespace Domain.Entities
         public required string Email { get; set; }
         public required string Password { get; set; }
         public DateTime CreationDate { get; set; }
+        public ICollection<Expenses> Expenses { get; set; }
 
         [NotMapped] public byte[] PasswordHash { get; set; }
         [NotMapped] public byte[] PasswordSalt { get; set; }

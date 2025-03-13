@@ -8,10 +8,16 @@ namespace Infra.Contexts
     {
         public SafeMoneyContext(DbContextOptions<SafeMoneyContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
+        public DbSet<Expenses> Expenses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new ExpensesMap());
+            modelBuilder.Entity<Categorys>(entity =>
+            {
+                entity.HasKey(v => v.Id);
+            });
         }
     }
 }
