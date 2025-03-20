@@ -7,14 +7,13 @@ namespace SafeMoneyAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ExpensesController : ControllerBase
+    public class MonthlyExpensesController : ControllerBase
     {
-        private readonly IExpensesHandler _handler;
+        private readonly IMonthlyExpensesHandler _handler;
 
-        public ExpensesController(IExpensesHandler handler)
+        public MonthlyExpensesController(IMonthlyExpensesHandler handler)
         {
             _handler = handler;
         }
-
     }
 }
