@@ -18,6 +18,10 @@ namespace Infra.Contexts
             {
                 entity.HasKey(v => v.Id);
             });
+            modelBuilder.Entity<Status>(entity =>
+            {
+                entity.HasKey(v => v.Id);
+            });
         }
     }
 }

@@ -26,6 +26,11 @@ namespace Infra.Mappings
               .HasForeignKey(e => e.UserId)
               .HasConstraintName("FKUserExpenses")
               .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Categorys)
+            .WithMany()
+            .HasForeignKey(e => e.CategoryId)
+            .HasConstraintName("FKCategoryExpenses")
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

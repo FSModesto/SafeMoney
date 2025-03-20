@@ -8,7 +8,8 @@ namespace Domain.Entities
         public string Description { get; set; }
         public decimal Value { get; set; }
         public DateTime Date { get; set; }
-        public ECategorys Categorys { get; set; }
+        public virtual Categorys Categorys { get; set; }
+        public int CategoryId { get; set; }
         public int UserId { get; set; }
         public virtual User User { get; set; }
     }
