@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
-using Application.ViewModel.Request;
-using Application.ViewModel.Response;
+using Application.ViewModel.Request.User;
+using Application.ViewModel.Response.User;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Helpers;

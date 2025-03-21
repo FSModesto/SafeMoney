@@ -1,12 +1,12 @@
-﻿using Application.ViewModel.Request;
+﻿using Application.ViewModel.Request.User;
 using FluentValidation;
 using System.Text.RegularExpressions;
 
-namespace Application.Validators
+namespace Application.Validators.User
 {
-    public class NewPasswordValidator : AbstractValidator<ResetPasswordEmailRequest> 
+    public class NewPasswordValidator : AbstractValidator<ResetPasswordEmailRequest>
     {
-        public NewPasswordValidator() 
+        public NewPasswordValidator()
         {
             RuleFor(u => u.NewPassword)
                .NotEmpty()

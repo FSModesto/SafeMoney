@@ -1,4 +1,4 @@
-﻿using Application.ViewModel.Response;
+﻿using Application.ViewModel.Response.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

@@ -1,4 +1,4 @@
-﻿namespace Application.ViewModel.Response
+﻿namespace Application.ViewModel.Response.User
 {
     public class LoginResponse
     {

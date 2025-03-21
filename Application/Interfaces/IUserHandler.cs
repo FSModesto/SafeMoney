@@ -1,5 +1,5 @@
-﻿using Application.ViewModel.Request;
-using Application.ViewModel.Response;
+﻿using Application.ViewModel.Request.User;
+using Application.ViewModel.Response.User;
 
 namespace Application.Interfaces
 {

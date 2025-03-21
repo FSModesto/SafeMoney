@@ -1,7 +1,7 @@
-﻿using Application.ViewModel.Request;
+﻿using Application.ViewModel.Request.User;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.User
 {
     public class GetByIdValidator : AbstractValidator<GetUserByIdRequest>
     {

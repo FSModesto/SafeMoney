@@ -1,4 +1,4 @@
-﻿using Application.ViewModel.Response;
+﻿using Application.ViewModel.Response.User;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;

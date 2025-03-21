@@ -1,6 +1,6 @@
 ﻿using Application.Handlers;
 using Application.Interfaces;
-using Application.Validators;
+using Application.Validators.User;
 using Domain.Interfaces;
 using Domain.Interfaces.Services;
 using FluentValidation;

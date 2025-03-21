@@ -1,6 +1,6 @@
-﻿namespace Application.ViewModel.Request
+﻿namespace Application.ViewModel.Response.User
 {
-    public class CreateUserRequest
+    public class GetUserByIdResponse
     {
         public string Name { get; set; }
         public string Email { get; set; }
