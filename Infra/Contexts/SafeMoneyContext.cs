@@ -14,6 +14,7 @@ namespace Infra.Contexts
         {
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new ExpensesMap());
+            modelBuilder.ApplyConfiguration(new MonthlyExpensesMapping());
             modelBuilder.Entity<Categorys>(entity =>
             {
                 entity.HasKey(v => v.Id);
